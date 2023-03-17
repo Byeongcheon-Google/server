@@ -1,7 +1,7 @@
 package com.example.autotravelserver.Service;
 
-import com.example.autotravelserver.model.Auth;
-import com.example.autotravelserver.model.MemberEntity;
+import com.example.autotravelserver.dto.Auth;
+import com.example.autotravelserver.Entity.MemberEntity;
 import com.example.autotravelserver.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

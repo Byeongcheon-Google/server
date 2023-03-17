@@ -1,5 +1,6 @@
-package com.example.autotravelserver.model;
+package com.example.autotravelserver.dto;
 
+import com.example.autotravelserver.Entity.MemberEntity;
 import lombok.Data;
 
 public class Auth {

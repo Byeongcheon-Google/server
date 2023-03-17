@@ -1,11 +1,10 @@
 package com.example.autotravelserver.controller;
 
 import com.example.autotravelserver.Service.MemberService;
-import com.example.autotravelserver.model.Auth;
+import com.example.autotravelserver.dto.Auth;
 import com.example.autotravelserver.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

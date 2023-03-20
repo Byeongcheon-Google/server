@@ -2,11 +2,14 @@ package com.example.autotravelserver.Entity;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Getter
@@ -23,9 +26,13 @@ public class MemberEntity implements UserDetails {
     private String username;
     private String password;
 
+    private String role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> authList = new ArrayList<>();
+        authList.add(new SimpleGrantedAuthority(role));
+        return authList;
     }
 
     @Override

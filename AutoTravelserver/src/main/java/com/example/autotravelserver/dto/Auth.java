@@ -17,10 +17,11 @@ public class Auth {
         private String username;
         private String password;
 
-        public MemberEntity toEntity(){
+        public MemberEntity toEntity(String role){
             return MemberEntity.builder()
                             .username(this.username)
                             .password(this.password)
+                    .role(role)
                             .build();
         }
     }

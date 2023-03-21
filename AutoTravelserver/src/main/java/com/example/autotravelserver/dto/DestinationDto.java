@@ -2,7 +2,10 @@ package com.example.autotravelserver.dto;
 
 import com.example.autotravelserver.Entity.DestinationEntity;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -12,11 +15,19 @@ import java.time.LocalDate;
 @Builder
 public class DestinationDto {
 
+
+    private Long id;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String address;
+    @Range()
     private Double lat;
+
+    @NotNull
     private Double lng;
     private Integer stayTimeHour;
+    @NotNull
     private LocalDate date;
     private String type;
 
@@ -31,4 +42,5 @@ public class DestinationDto {
                 .type(destinationEntity.getType())
                 .build();
     }
+
 }

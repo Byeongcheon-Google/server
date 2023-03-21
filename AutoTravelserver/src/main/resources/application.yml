@@ -5,8 +5,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/autotravalserverdb?serverTimezone=UTC&characterEncoding=UTF-8
-    username: ID
-    password: PASSWORD
+    username: root
+    password: root673254
 
   jpa:
     database: mysql

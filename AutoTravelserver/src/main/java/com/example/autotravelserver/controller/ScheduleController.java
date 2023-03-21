@@ -5,6 +5,7 @@ import com.example.autotravelserver.Service.ScheduleService;
 import com.example.autotravelserver.dto.CreateSchedule;
 import com.example.autotravelserver.dto.OnlyScheduleDto;
 import com.example.autotravelserver.dto.ScheduleDto;
+import com.example.autotravelserver.dto.UpdateSchedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class ScheduleController {
 
     @PostMapping("/schedule")
     public CreateSchedule.Response createSchedule(
-            @RequestBody CreateSchedule.Requset request
+            @RequestBody CreateSchedule.Request request
     ){
         return CreateSchedule.Response.from(
                 scheduleService.createSchedule(
@@ -67,4 +68,11 @@ public class ScheduleController {
         return 1L;
     }
 
+    @PutMapping("/schedule/update")
+    public UpdateSchedule.Response updateSchedule(
+            @RequestBody UpdateSchedule.Request request
+    ){
+        return UpdateSchedule.Response.from(
+                scheduleService.updateSchedule(request));
+    }
 }

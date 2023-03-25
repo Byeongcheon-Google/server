@@ -3,25 +3,29 @@ package com.example.autotravelserver.dto;
 import com.example.autotravelserver.Entity.MemberEntity;
 import lombok.Data;
 
+import java.util.List;
+
 public class Auth {
 
     @Data
-    public static class SignIn{
+    public static class SignIn {
         private String username;
         private String password;
     }
 
 
     @Data
-    public static class SignUp{
+    public static class SignUp {
         private String username;
         private String password;
+        private List<String> roles;
 
-        public MemberEntity toEntity(){
+        public MemberEntity toEntity() {
             return MemberEntity.builder()
-                            .username(this.username)
-                            .password(this.password)
-                            .build();
+                    .username(this.username)
+                    .password(this.password)
+                    .roles(this.roles)
+                    .build();
         }
     }
 }

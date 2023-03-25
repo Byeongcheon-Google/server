@@ -7,18 +7,21 @@ import com.example.autotravelserver.dto.OnlyScheduleDto;
 import com.example.autotravelserver.dto.ScheduleDto;
 import com.example.autotravelserver.dto.UpdateSchedule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
 
     @PostMapping("/schedule")
+    @PreAuthorize("hasRole('USER')")
     public CreateSchedule.Response createSchedule(
             @RequestBody CreateSchedule.Request request
     ){
@@ -37,6 +40,7 @@ public class ScheduleController {
      * @return
      */
     @GetMapping("/schedule")
+    @PreAuthorize("hasRole('USER')")
     public List<OnlyScheduleDto> readSchedules(
             @RequestParam Long id
     ){
@@ -50,6 +54,7 @@ public class ScheduleController {
      * @return
      */
     @GetMapping("/schedules")
+    @PreAuthorize("hasRole('USER')")
     public ScheduleDto readDestinations(
             @RequestParam Long memberId,
             @RequestParam Long scheduleId
@@ -58,7 +63,14 @@ public class ScheduleController {
 
     }
 
+    /**
+     * 삭제 API
+     * @param memberId
+     * @param scheduleId
+     * @return
+     */
     @DeleteMapping("/schedule/delete")
+    @PreAuthorize("hasRole('USER')")
     public Long deleteSchedule(
             @RequestParam Long memberId,
             @RequestParam Long scheduleId
@@ -68,7 +80,14 @@ public class ScheduleController {
         return 1L;
     }
 
+
+    /**
+     * 수정 API
+     * @param request
+     * @return
+     */
     @PutMapping("/schedule/update")
+    @PreAuthorize("hasRole('USER')")
     public UpdateSchedule.Response updateSchedule(
             @RequestBody UpdateSchedule.Request request
     ){

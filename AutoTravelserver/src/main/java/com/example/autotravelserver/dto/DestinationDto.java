@@ -21,7 +21,7 @@ public class DestinationDto {
     private String name;
     @NotEmpty
     private String address;
-    @Range()
+    @NotNull
     private Double lat;
 
     @NotNull

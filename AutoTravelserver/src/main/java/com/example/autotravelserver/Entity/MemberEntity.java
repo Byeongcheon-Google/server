@@ -2,11 +2,13 @@ package com.example.autotravelserver.Entity;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -23,11 +25,14 @@ public class MemberEntity implements UserDetails {
     private String username;
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return false;

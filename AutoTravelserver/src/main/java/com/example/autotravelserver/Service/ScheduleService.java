@@ -8,12 +8,9 @@ import com.example.autotravelserver.exception.TravelException;
 import com.example.autotravelserver.repository.DestinationRepository;
 import com.example.autotravelserver.repository.MemberRepository;
 import com.example.autotravelserver.repository.ScheduleRepository;
-import com.example.autotravelserver.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.print.attribute.standard.Destination;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +97,7 @@ public class ScheduleService {
 
     public ScheduleDto readDestinations(Long memberId, Long scheduleId) {
         ScheduleEntity scheduleEntity = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new TravelException(SCHEDULE_NOT_FOUND));
 
         List<DestinationEntity> destinationEntityList =
                 destinationRepository.findAllByMemberEntity_IdAndScheduleEntity_Id(
@@ -109,19 +106,14 @@ public class ScheduleService {
                 );
 
         DestinationEntity startDestinationEntity = destinationRepository
-                .findFirstByScheduleEntity_IdOrderByCreatedAtAsc(
-                        scheduleId
-
-                );
+                .findFirstByScheduleEntity_IdOrderByDateAsc(
+                        scheduleId)
+                .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
 
         LocalDate startDate =  startDestinationEntity.getCreatedAt().toLocalDate();
 
-        DestinationEntity endDestinationEntity = destinationRepository
-                .findFirstByScheduleEntity_IdOrderByCreatedAtDesc(
-                        scheduleId
-
-                );
-
+        DestinationEntity endDestinationEntity = destinationRepository.findFirstByScheduleEntity_IdOrderByDateDesc(scheduleId)
+                .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
         LocalDate endDate = endDestinationEntity.getCreatedAt().toLocalDate();
 
 
@@ -144,10 +136,10 @@ public class ScheduleService {
 
     public OnlyScheduleDto updateSchedule(UpdateSchedule.Request request) {
         MemberEntity member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new TravelException(USER_NOT_FOUND));
 
         ScheduleEntity scheduleEntity= scheduleRepository.findById(request.getScheduleId())
-                .orElseThrow(()-> new RuntimeException());
+                .orElseThrow(()-> new TravelException(SCHEDULE_NOT_FOUND));
 
         scheduleEntity.setName(request.getName());
         scheduleEntity.setStatus(request.getStatus());
@@ -155,7 +147,7 @@ public class ScheduleService {
 
         for (DestinationDto destination : request.getDestinations()) {
             DestinationEntity destinationEntity = destinationRepository.findById(destination.getId())
-                    .orElseThrow(()->new RuntimeException());
+                    .orElseThrow(()->new TravelException(DESTINATION_NOT_FOUND));
             destinationEntity.setName(destination.getName());
             destinationEntity.setAddress(destination.getAddress());
             destinationEntity.setLat(destination.getLat());

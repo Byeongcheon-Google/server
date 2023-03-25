@@ -9,15 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DestinationRepository extends JpaRepository<DestinationEntity, Long> {
 
     List<DestinationEntity> findAllByMemberEntity_IdAndScheduleEntity_Id(Long memberId, Long scheduleId);
 
-    DestinationEntity findFirstByScheduleEntity_IdOrderByCreatedAtDesc(Long scheduleId);
+    Optional<DestinationEntity> findFirstByScheduleEntity_IdOrderByDateAsc(Long scheduleId);
 
-     DestinationEntity findFirstByScheduleEntity_IdOrderByCreatedAtAsc(Long scheduleId);
+    Optional<DestinationEntity> findFirstByScheduleEntity_IdOrderByDateDesc(Long scheduleId);
 
      @Transactional
     void deleteByMemberEntity_IdAndScheduleEntity_Id(Long memberId, Long scheduleId);

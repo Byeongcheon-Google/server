@@ -32,7 +32,7 @@ public class AuthController {
     public ResponseEntity<?> signin(@RequestBody Auth.SignIn request){
         //로그인 API
         var member = this.memberService.authenticate(request);
-        var token = this.tokenProvider.generateToken(member.getUsername());
+        var token = this.tokenProvider.generateToken(member.getUsername(), member.getRoles());
         return ResponseEntity.ok(token);
 
     }

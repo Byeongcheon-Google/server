@@ -84,6 +84,12 @@ public class ScheduleService {
             }
         }
     }
+
+    /**
+     * 모든 일정 조화
+     * @param id 스케줄 ID
+     * @return ReadScheduleList
+     */
     public List<ReadSchedule> readSchedules(Long id) {
         List<ScheduleEntity> scheduleEntityList =
                 scheduleRepository.findAllByMemberEntity_Id(id);
@@ -93,12 +99,12 @@ public class ScheduleService {
                 .findFirstByScheduleEntity_IdOrderByDateAsc(id)
                 .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
 
-        LocalDate startDate =  startDestinationEntity.getCreatedAt().toLocalDate();
+        LocalDate startDate =  startDestinationEntity.getDate();
 
         DestinationEntity endDestinationEntity = destinationRepository
                 .findFirstByScheduleEntity_IdOrderByDateDesc(id)
                 .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
-        LocalDate endDate = endDestinationEntity.getCreatedAt().toLocalDate();
+        LocalDate endDate = endDestinationEntity.getDate();
 
 
         for (ScheduleEntity scheduleEntity : scheduleEntityList) {
@@ -107,6 +113,12 @@ public class ScheduleService {
         return readScheduleDtoList;
     }
 
+    /**
+     * 선택한 일정 조회
+     * @param memberId
+     * @param scheduleId
+     * @return
+     */
     public ScheduleDto readDestinations(Long memberId, Long scheduleId) {
         ScheduleEntity scheduleEntity = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new TravelException(SCHEDULE_NOT_FOUND));
@@ -122,11 +134,11 @@ public class ScheduleService {
                         scheduleId)
                 .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
 
-        LocalDate startDate =  startDestinationEntity.getCreatedAt().toLocalDate();
+        LocalDate startDate =  startDestinationEntity.getDate();
 
         DestinationEntity endDestinationEntity = destinationRepository.findFirstByScheduleEntity_IdOrderByDateDesc(scheduleId)
                 .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
-        LocalDate endDate = endDestinationEntity.getCreatedAt().toLocalDate();
+        LocalDate endDate = endDestinationEntity.getDate();
 
 
         List<DestinationDto> destinationDtoList = new ArrayList<>();

@@ -33,6 +33,7 @@ public class DestinationDto {
 
     public static DestinationDto fromEntity(DestinationEntity destinationEntity) {
         return DestinationDto.builder()
+                .id(destinationEntity.getId())
                 .name(destinationEntity.getName())
                 .address(destinationEntity.getAddress())
                 .lat(destinationEntity.getLat())

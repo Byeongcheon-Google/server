@@ -22,3 +22,7 @@ spring:
   jwt:
     secret : emVyby1jYWxvcmllLXByZXNpbW1vbi10cmVlLWNhdC1pcy12ZXJ5LWN1dGUK
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+

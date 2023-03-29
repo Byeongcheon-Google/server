@@ -2,10 +2,7 @@ package com.example.autotravelserver.controller;
 
 
 import com.example.autotravelserver.Service.ScheduleService;
-import com.example.autotravelserver.dto.CreateSchedule;
-import com.example.autotravelserver.dto.OnlyScheduleDto;
-import com.example.autotravelserver.dto.ScheduleDto;
-import com.example.autotravelserver.dto.UpdateSchedule;
+import com.example.autotravelserver.dto.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +41,7 @@ public class ScheduleController {
     @ApiOperation("사용자의 모든일정 조회 API")
     @GetMapping("/schedule")
     @PreAuthorize("hasRole('USER')")
-    public List<OnlyScheduleDto> readSchedules(
+    public List<ReadSchedule> readSchedules(
             @RequestParam Long id
     ){
         return scheduleService.readSchedules(id);

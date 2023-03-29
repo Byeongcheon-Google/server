@@ -84,15 +84,27 @@ public class ScheduleService {
             }
         }
     }
-    public List<OnlyScheduleDto> readSchedules(Long id) {
+    public List<ReadSchedule> readSchedules(Long id) {
         List<ScheduleEntity> scheduleEntityList =
                 scheduleRepository.findAllByMemberEntity_Id(id);
-        List<OnlyScheduleDto> onlyScheduleDtoList = new ArrayList<>();
+        List<ReadSchedule> readScheduleDtoList = new ArrayList<>();
+
+        DestinationEntity startDestinationEntity = destinationRepository
+                .findFirstByScheduleEntity_IdOrderByDateAsc(id)
+                .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
+
+        LocalDate startDate =  startDestinationEntity.getCreatedAt().toLocalDate();
+
+        DestinationEntity endDestinationEntity = destinationRepository
+                .findFirstByScheduleEntity_IdOrderByDateDesc(id)
+                .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
+        LocalDate endDate = endDestinationEntity.getCreatedAt().toLocalDate();
+
 
         for (ScheduleEntity scheduleEntity : scheduleEntityList) {
-            onlyScheduleDtoList.add(OnlyScheduleDto.fromEntity(scheduleEntity));
+            readScheduleDtoList.add(ReadSchedule.from(scheduleEntity,startDate,endDate));;
         }
-        return onlyScheduleDtoList;
+        return readScheduleDtoList;
     }
 
     public ScheduleDto readDestinations(Long memberId, Long scheduleId) {

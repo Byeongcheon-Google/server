@@ -11,7 +11,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       use-new-id-generator-mappings: false
     show-sql: true
     defer-datasource-initialization: true
@@ -26,3 +26,5 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  tour:
+    key: IWQ8AgfCDCnhO7BVKzm7e9DNq7L%2B4G1D2JmPuoZjUxyFi7mvcdIM1Zd3th%2FhFmG8wQvodEed0BlOW7YYstjmAw%3D%3D

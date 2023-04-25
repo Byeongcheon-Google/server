@@ -2,7 +2,7 @@ package com.example.autotravelserver.dto;
 
 import com.example.autotravelserver.Entity.DestinationEntity;
 import lombok.*;
-import org.hibernate.validator.constraints.Range;
+
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

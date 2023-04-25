@@ -151,7 +151,6 @@ public class ScheduleService {
         return ScheduleDto.fromEntity(scheduleEntity, destinationDtoList, startDate, endDate);
     }
 
-
     public void deleteSchedule(Long memberId, Long scheduleId) {
         destinationRepository.deleteByMemberEntity_IdAndScheduleEntity_Id(memberId,scheduleId);
         scheduleRepository.deleteByMemberEntity_IdAndId(memberId,scheduleId);

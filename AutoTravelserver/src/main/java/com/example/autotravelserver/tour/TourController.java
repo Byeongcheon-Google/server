@@ -16,4 +16,8 @@ public class TourController {
         tourService.saveTour();
     }
 
+    @GetMapping("/description")
+    public void saveDescriptionTour(){
+        tourService.saveTourDescription();
+    }
 }

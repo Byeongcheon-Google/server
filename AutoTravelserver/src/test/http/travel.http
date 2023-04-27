@@ -45,3 +45,6 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/tour
+
+###
+GET http://localhost:8080/tour/description

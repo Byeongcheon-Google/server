@@ -19,7 +19,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class TokenProvider {
+public class  TokenProvider {
 
 
     private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60;

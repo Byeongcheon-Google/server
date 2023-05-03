@@ -84,17 +84,41 @@ public class ScheduleService {
             }
         }
     }
-    public List<OnlyScheduleDto> readSchedules(Long id) {
+
+    /**
+     * 모든 일정 조화
+     * @param id 스케줄 ID
+     * @return ReadScheduleList
+     */
+    public List<ReadSchedule> readSchedules(Long id) {
         List<ScheduleEntity> scheduleEntityList =
                 scheduleRepository.findAllByMemberEntity_Id(id);
-        List<OnlyScheduleDto> onlyScheduleDtoList = new ArrayList<>();
+        List<ReadSchedule> readScheduleDtoList = new ArrayList<>();
+
+        DestinationEntity startDestinationEntity = destinationRepository
+                .findFirstByScheduleEntity_IdOrderByDateAsc(id)
+                .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
+
+        LocalDate startDate =  startDestinationEntity.getDate();
+
+        DestinationEntity endDestinationEntity = destinationRepository
+                .findFirstByScheduleEntity_IdOrderByDateDesc(id)
+                .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
+        LocalDate endDate = endDestinationEntity.getDate();
+
 
         for (ScheduleEntity scheduleEntity : scheduleEntityList) {
-            onlyScheduleDtoList.add(OnlyScheduleDto.fromEntity(scheduleEntity));
+            readScheduleDtoList.add(ReadSchedule.from(scheduleEntity,startDate,endDate));;
         }
-        return onlyScheduleDtoList;
+        return readScheduleDtoList;
     }
 
+    /**
+     * 선택한 일정 조회
+     * @param memberId
+     * @param scheduleId
+     * @return
+     */
     public ScheduleDto readDestinations(Long memberId, Long scheduleId) {
         ScheduleEntity scheduleEntity = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new TravelException(SCHEDULE_NOT_FOUND));
@@ -110,11 +134,11 @@ public class ScheduleService {
                         scheduleId)
                 .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
 
-        LocalDate startDate =  startDestinationEntity.getCreatedAt().toLocalDate();
+        LocalDate startDate =  startDestinationEntity.getDate();
 
         DestinationEntity endDestinationEntity = destinationRepository.findFirstByScheduleEntity_IdOrderByDateDesc(scheduleId)
                 .orElseThrow(() -> new TravelException(NOT_EXIST_DATE));
-        LocalDate endDate = endDestinationEntity.getCreatedAt().toLocalDate();
+        LocalDate endDate = endDestinationEntity.getDate();
 
 
         List<DestinationDto> destinationDtoList = new ArrayList<>();
@@ -126,7 +150,6 @@ public class ScheduleService {
 
         return ScheduleDto.fromEntity(scheduleEntity, destinationDtoList, startDate, endDate);
     }
-
 
     public void deleteSchedule(Long memberId, Long scheduleId) {
         destinationRepository.deleteByMemberEntity_IdAndScheduleEntity_Id(memberId,scheduleId);

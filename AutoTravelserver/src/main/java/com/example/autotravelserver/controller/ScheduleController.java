@@ -2,10 +2,9 @@ package com.example.autotravelserver.controller;
 
 
 import com.example.autotravelserver.Service.ScheduleService;
-import com.example.autotravelserver.dto.CreateSchedule;
-import com.example.autotravelserver.dto.OnlyScheduleDto;
-import com.example.autotravelserver.dto.ScheduleDto;
-import com.example.autotravelserver.dto.UpdateSchedule;
+import com.example.autotravelserver.dto.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +18,11 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-
+    @ApiOperation("일정 생성 API")
     @PostMapping("/schedule")
     @PreAuthorize("hasRole('USER')")
     public CreateSchedule.Response createSchedule(
-            @RequestBody CreateSchedule.Request request
+            @RequestBody  @ApiParam(value = "날짜 형식: yyyy-MM-dd") CreateSchedule.Request request
     ){
         return CreateSchedule.Response.from(
                 scheduleService.createSchedule(
@@ -39,9 +38,10 @@ public class ScheduleController {
      * @param id memberId
      * @return
      */
+    @ApiOperation("사용자의 모든일정 조회 API")
     @GetMapping("/schedule")
     @PreAuthorize("hasRole('USER')")
-    public List<OnlyScheduleDto> readSchedules(
+    public List<ReadSchedule> readSchedules(
             @RequestParam Long id
     ){
         return scheduleService.readSchedules(id);
@@ -53,6 +53,7 @@ public class ScheduleController {
      * @param scheduleId 일정ID
      * @return
      */
+    @ApiOperation("선택한 일정 한개 조회 API")
     @GetMapping("/schedules")
     @PreAuthorize("hasRole('USER')")
     public ScheduleDto readDestinations(
@@ -69,6 +70,7 @@ public class ScheduleController {
      * @param scheduleId
      * @return
      */
+    @ApiOperation("일정 삭제 API")
     @DeleteMapping("/schedule/delete")
     @PreAuthorize("hasRole('USER')")
     public Long deleteSchedule(
@@ -86,6 +88,7 @@ public class ScheduleController {
      * @param request
      * @return
      */
+    @ApiOperation("일정 수정 API")
     @PutMapping("/schedule/update")
     @PreAuthorize("hasRole('USER')")
     public UpdateSchedule.Response updateSchedule(

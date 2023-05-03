@@ -3,6 +3,7 @@ package com.example.autotravelserver.controller;
 import com.example.autotravelserver.Service.MemberService;
 import com.example.autotravelserver.dto.Auth;
 import com.example.autotravelserver.security.TokenProvider;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class AuthController {
     private final TokenProvider tokenProvider;
 
     @PostMapping(value = "/signup")
+    @ApiOperation("회원가입 API")
     public ResponseEntity<?> signup(@RequestBody Auth.SignUp request){
         //회원가입 API
         var result = this.memberService.register(request);
@@ -29,6 +31,7 @@ public class AuthController {
     }
 
     @PostMapping(value ="/signin")
+    @ApiOperation("로그인 API")
     public ResponseEntity<?> signin(@RequestBody Auth.SignIn request){
         //로그인 API
         var member = this.memberService.authenticate(request);

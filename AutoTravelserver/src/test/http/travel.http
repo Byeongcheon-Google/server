@@ -42,3 +42,9 @@ Content-Type: application/json
   ],
   "scheduleStatus": "ACTIVE"
 }
+
+###
+GET http://localhost:8080/tour
+
+###
+GET http://localhost:8080/tour/description

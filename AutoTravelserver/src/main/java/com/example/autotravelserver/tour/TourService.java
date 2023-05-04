@@ -33,7 +33,7 @@ public class TourService {
     }
 
     public void saveTourDescription(){
-        for (long i = 11333; i <13000; i++) {
+        for (long i = 36159; i <40000; i++) {
             TourEntity tourEntity = this.getTourDescriptionFromApi(i);
             tourRepository.save(tourEntity);
         }
@@ -49,7 +49,7 @@ public class TourService {
      * @return type
      */
 
-    private String matchType(String contentType){
+    private String matchType1(String contentType){
         String type = "";
         int t = Integer.parseInt(contentType);
         switch (t){
@@ -115,7 +115,7 @@ public class TourService {
             TourEntity tourEntity = new TourEntity();
             tourEntity.setContentId((String) tour.get("contentid"));
             tourEntity.setTitle((String) tour.get("title"));
-            tourEntity.setType(this.matchType((String) tour.get("contenttypeid")));
+            tourEntity.setType(this.matchType1((String) tour.get("contenttypeid")));
             tourEntity.setAddress((String) tour.get("address"));
             tourEntity.setLat((String) tour.get("mapy"));
             tourEntity.setLng((String) tour.get("mapx"));

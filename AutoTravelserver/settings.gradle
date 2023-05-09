@@ -2,4 +2,5 @@ rootProject.name = 'AutoTravelserver'
 include 'user-api'
 include 'schedule-api'
 include 'jwt'
+include 'tour-api'
 

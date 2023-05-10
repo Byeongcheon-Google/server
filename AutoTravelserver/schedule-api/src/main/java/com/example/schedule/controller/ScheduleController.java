@@ -29,8 +29,7 @@ public class ScheduleController {
 
     @GetMapping
     public ResponseEntity<?> readSchedule(
-            @RequestHeader(name = "X-AUTH-TOKEN") String token,
-            @RequestParam String memberId
+            @RequestHeader(name = "X-AUTH-TOKEN") String token
     ){
         MemberVo vo = jwtTokenProvider.getMemberVo(token);
         var result = scheduleService.readSchedules(vo.getMemberId());

@@ -34,12 +34,16 @@ public class ScheduleService {
      * @return
      */
     public String saveSchedule(String memberId, ScheduleDto.RequestSchedule requestSchedule) {
-        Schedule schedule = scheduleRepository.findByScheduleNameAndMemberId(requestSchedule.getScheduleName(), memberId)
-                .orElseThrow(() -> new ScheduleException(DUPLICATE_SCHEDULE_NAME));
+        boolean exists = scheduleRepository.existsByMemberIdAndScheduleName(requestSchedule.getScheduleName(), memberId);
+
+        if (exists){
+            throw new ScheduleException(DUPLICATE_SCHEDULE_NAME);
+        }
+
 
         validateSaveSchedule(memberId, requestSchedule.getDestinations());
 
-        schedule = requestSchedule.toEntity();
+        Schedule schedule = requestSchedule.toEntity(memberId);
         scheduleRepository.save(schedule);
 
         for (DestinationDto.RequestDestination requestDestination : requestSchedule.getDestinations()) {
@@ -69,6 +73,11 @@ public class ScheduleService {
      * @param destinations
      */
     private void validateUpdateSchedule(List<DestinationDto.RequestDestination> destinations) {
+
+        if (destinations.size() > 9){
+            throw new ScheduleException(MAX_DESTINATION_PRE_SCHEDULE_9);
+        }
+
         for (DestinationDto.RequestDestination destination : destinations) {
             if (!((destination.getLat() > 32.0 && destination.getLat() < 44.0) &&
                     (destination.getLng() > 123.0 && destination.getLng() < 133.0))) {
@@ -103,11 +112,13 @@ public class ScheduleService {
         List<ScheduleDto.ResponseSchedule> responseScheduleDtoList = new ArrayList<>();
 
         for (Schedule schedule : scheduleList) {
-            LocalDate start = destinationRepository
-                    .findFirstByScheduleOrderByDateAsc(schedule.getId()).getData();
+
+            LocalDate start  = destinationRepository
+                    .findFirstBySchedule_IdOrderByDateAsc(schedule.getId()).getDate();
+
 
             LocalDate end = destinationRepository
-                    .findFirstByScheduleOrderByDateDesc(schedule.getId()).getData();
+                    .findFirstBySchedule_IdOrderByDateDesc(schedule.getId()).getDate();
 
             ScheduleDto.ResponseSchedule responseSchedule = schedule.toDto(start, end);
 
@@ -125,8 +136,8 @@ public class ScheduleService {
     public List<DestinationDto.ResponseDestination> readDestinations(Long scheduleId) {
 
         List<Destination> destinationList =
-                destinationRepository.findBySchedule_Id(scheduleId)
-                        .orElseThrow(() -> new ScheduleException(SCHEDULE_NOT_FOUND));
+                destinationRepository.findBySchedule_Id(scheduleId);
+
 
         List<DestinationDto.ResponseDestination> responseDestinationList
                 = new ArrayList<>();
@@ -170,12 +181,18 @@ public class ScheduleService {
 
         validateUpdateSchedule(requestSchedule.getDestinations());
 
-        schedule = requestSchedule.toEntity();
+
+        schedule.toUpdate(requestSchedule);
         scheduleRepository.save(schedule);
 
-        for (DestinationDto.RequestDestination requestDestination : requestSchedule.getDestinations()) {
-            destinationRepository.save(requestDestination.toEntity(schedule));
+
+        List<Destination> destinationList = destinationRepository.findBySchedule_Id(scheduleId);
+
+        for (int i = 0; i <destinationList.size(); i++) {
+            destinationList.get(i).toUpdate(requestSchedule.getDestinations().get(i));
+            destinationRepository.save(destinationList.get(i));
         }
+
 
         return schedule.getScheduleName();
     }

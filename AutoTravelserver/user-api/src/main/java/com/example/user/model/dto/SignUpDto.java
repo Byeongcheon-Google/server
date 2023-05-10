@@ -13,7 +13,6 @@ public class SignUpDto {
         private String memberId;
         private String password;
         private String memberName;
-        private String roles;
 
         public Member toEntity(String password){
             return Member.builder()

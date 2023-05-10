@@ -11,14 +11,15 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       use-new-id-generator-mappings: false
-    show-sql: true
+    show-sql: false
     defer-datasource-initialization: true
 
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
 
 server:
   port: 8081

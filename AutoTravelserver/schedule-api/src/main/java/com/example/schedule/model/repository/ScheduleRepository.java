@@ -11,7 +11,9 @@ import java.util.Optional;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
-    Optional<Schedule> findByScheduleNameAndMemberId(String scheduleName, String memberId);
+
+    boolean existsByMemberIdAndScheduleName(String scheduleName, String memberId);
+
     Integer countScheduleByMemberId(String memberId);
 
     Optional<List<Schedule>> findByMemberId(String memberId);

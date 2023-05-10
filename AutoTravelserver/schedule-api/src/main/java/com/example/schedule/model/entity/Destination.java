@@ -1,20 +1,19 @@
 package com.example.schedule.model.entity;
 
 import com.example.schedule.model.dto.DestinationDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@EntityListeners(AbstractMethodError.class)
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -50,5 +49,17 @@ public class Destination {
                 .date(this.date)
                 .type(this.type)
                 .build();
+    }
+
+    public Destination toUpdate(DestinationDto.RequestDestination destination){
+        this.setDestinationName(destination.getDestinationName());
+        this.setAddress(destination.getAddress());
+        this.setLat(destination.getLat());
+        this.setLng(destination.getLng());
+        this.setStayTimeHour(destination.getStayTimeHour());
+        this.setDate(destination.getDate());
+        this.setType(destination.getType());
+
+        return this;
     }
 }

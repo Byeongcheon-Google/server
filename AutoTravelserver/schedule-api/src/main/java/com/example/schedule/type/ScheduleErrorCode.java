@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ScheduleErrorCode {
     DUPLICATE_SCHEDULE_NAME(HttpStatus.BAD_REQUEST,"일정의 이름이 중복되었습니다."),
     MAX_SCHEDULE_PER_MEMBER_10(HttpStatus.BAD_REQUEST,"사용자 최대 일정은 10개 입니다."),
+    MAX_DESTINATION_PRE_SCHEDULE_9(HttpStatus.BAD_REQUEST, "일정 당 여행지의 최대 갯수는 9개입니다."),
     RANGE_NOT_ALLOWED_REGION(HttpStatus.BAD_REQUEST,"경도, 위도가 대한민국을 벗어났습니다."),
     SCHEDULE_NOT_FOUND(HttpStatus.BAD_REQUEST,"해당 일정을 찾을 수 없습니다."),
     DESTINATION_NOT_FOUND(HttpStatus.BAD_REQUEST,"해당 여행지가 없습니다."),

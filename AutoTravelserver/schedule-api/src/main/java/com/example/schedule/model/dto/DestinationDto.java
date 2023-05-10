@@ -22,7 +22,7 @@ public class DestinationDto {
         public Destination toEntity(Schedule schedule){
             return Destination.builder()
                     .destinationName(this.destinationName)
-                    .address(this.type)
+                    .address(this.address)
                     .lat(this.lat)
                     .lng(this.lng)
                     .stayTimeHour(this.stayTimeHour)
@@ -33,6 +33,7 @@ public class DestinationDto {
         }
     }
 
+    @Getter
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor

@@ -1,3 +1,3 @@
 spring:
   jwt:
-    secret: emVyby1jYWxvcmllLXByZXNpbW1vbi10cmVlLWNhdC1pcy12ZXJ5LWN1dGUK
+    secret:

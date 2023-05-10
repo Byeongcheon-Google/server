@@ -12,13 +12,12 @@ public class ScheduleDto {
     @Getter
     public static class RequestSchedule{
         private String scheduleName;
-        private String scheduleStatus;
         private List<DestinationDto.RequestDestination> destinations;
 
-        public Schedule toEntity(){
+        public Schedule toEntity(String memberId){
             return Schedule.builder()
                     .scheduleName(this.scheduleName)
-                    .scheduleStatus(this.scheduleStatus)
+                    .memberId(memberId)
                     .build();
 
         }

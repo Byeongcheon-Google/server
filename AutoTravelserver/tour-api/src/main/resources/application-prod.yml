@@ -4,21 +4,29 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/auto_travel_schedule?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/auto_travel_tour?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: root673254
+    tomcat:
+      url:
 
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       use-new-id-generator-mappings: false
-    show-sql: true
+    show-sql: false
     defer-datasource-initialization: true
+
 
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
 
-server:
-  port: 8081
+
+  tour:
+    key: mnIS24cpM2UmU4vtwIRpoUwKCuV9tNRupzWGtOnE3yHwD7%2FAJpZc1nigqPFbDxjsmI1%2B4r9vYpE3ioQAt%2F0Lsw%3D%3D
+
+
+
+

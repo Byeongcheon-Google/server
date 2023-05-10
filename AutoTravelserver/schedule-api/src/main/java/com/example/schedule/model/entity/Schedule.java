@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,9 +24,7 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String scheduleName;
-    private String scheduleStatus;
     private String memberId;
 
     @CreatedDate
@@ -41,5 +40,11 @@ public class Schedule {
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
+    }
+
+    public Schedule toUpdate(ScheduleDto.RequestSchedule schedule){
+       this.setScheduleName(schedule.getScheduleName());
+
+       return this;
     }
 }
